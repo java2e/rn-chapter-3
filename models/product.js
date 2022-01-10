@@ -9,6 +9,6 @@ class Product {
         this.description = description;
         this.price =price;
     }
-
-
 }
+
+export default Product;

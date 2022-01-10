@@ -16,4 +16,8 @@ const ProductOverviewScreen = props => {
         } />
 }
 
+ProductOverviewScreen.navigationOptions = {
+    headerTitle : "Bütün Ürünler"
+}
+
 export default ProductOverviewScreen;
