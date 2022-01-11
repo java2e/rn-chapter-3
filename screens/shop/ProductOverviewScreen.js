@@ -37,6 +37,9 @@ const ProductOverviewScreen = props => {
 ProductOverviewScreen.navigationOptions = navData => {
     return {
         headerTitle: "Ürünler Listesi",
+        headerLeft: (<Ionicons name="menu" size={23} color="white" onPress={() => {
+            navData.navigation.toggleDrawer();
+        }} />),
         headerRight: (<Ionicons name="cart" size={23} color="white" onPress={() => {
             navData.navigation.navigate('Cart')
         }} />)
