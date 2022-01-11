@@ -1,19 +1,42 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 
-import { FlatList, Text } from "react-native";
+import { FlatList, Text ,ActivityIndicator,View,StyleSheet} from "react-native";
 
 import { useSelector, useDispatch } from "react-redux";
 import ProductItem from "../../components/shop/ProductItem";
 import * as cartActions from '../../store/actions/cart';
+import * as productsActions from '../../store/actions/products';
 import { Ionicons } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
 
 
 
 const ProductOverviewScreen = props => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const products = useSelector(state => state.products.avaiableProducts);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const loadProducts = async () => {
+            setIsLoading(true);
+            await dispatch(productsActions.fetchProducts());
+            setIsLoading(false);
+        };
+        loadProducts();
+    }, [dispatch]);
+
+    if (isLoading) {
+        return (
+          <View style={styles.centered}>
+            <ActivityIndicator size="large" color={Colors.color1} />
+          </View>
+        );
+      }
+
+      console.log(products)
 
     return <FlatList data={products}
         keyExtractor={item => item.id}
@@ -46,5 +69,9 @@ ProductOverviewScreen.navigationOptions = navData => {
     }
 
 }
+
+const styles = StyleSheet.create({
+    centered: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+  });
 
 export default ProductOverviewScreen;
