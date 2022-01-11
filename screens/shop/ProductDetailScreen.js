@@ -2,7 +2,8 @@ import React from "react";
 
 import { StyleSheet, View, Text, Image, Button } from "react-native";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import * as cartActions from '../../store/actions/cart';
 
 
 const ProductDetailScreen = props => {
@@ -12,14 +13,16 @@ const ProductDetailScreen = props => {
 
     const selectedProduct = useSelector(state => state.products.avaiableProducts.find(prod => prod.id === productId));
 
-    console.log(selectedProduct.imageUrl)
+    const dispatch = useDispatch();
 
 
     return (
         <View>
             <Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
             <View style={styles.actions}>
-                <Button title="Sepete Ekle" />
+                <Button title="Sepete Ekle" onPress={() => {
+                    dispatch(cartActions.addToCart(selectedProduct));
+                }} />
             </View>
             <Text style={styles.price}>{selectedProduct.price.toFixed(2)} TL</Text>
             <Text style={styles.description}>{selectedProduct.description}</Text>
@@ -43,15 +46,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     price: {
+        fontFamily: 'open-sans-bold',
         fontSize: 20,
         color: '#888',
         textAlign: 'center',
         marginVertical: 20
     },
-    description :{
-        fontSize:14,
-        textAlign:'center',
-        marginHorizontal:20
+    description: {
+        fontFamily: 'open-sans',
+        fontSize: 14,
+        textAlign: 'center',
+        marginHorizontal: 20
     }
 })
 
