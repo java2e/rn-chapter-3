@@ -1,28 +1,34 @@
 import React from "react";
 
 import { FlatList, Text } from "react-native";
+
 import { useSelector } from "react-redux";
 import ProductItem from "../../components/shop/ProductItem";
 
+
 const ProductOverviewScreen = props => {
 
-    const products = useSelector(state => state.products.avaiableProducts)
+    const products = useSelector(state => state.products.avaiableProducts);
 
-    return <FlatList
-        data={products}
+    return <FlatList data={products}
         keyExtractor={item => item.id}
         renderItem={
-            itemData => <ProductItem 
+            itemData => 
+            <ProductItem 
             image={itemData.item.imageUrl} 
             title={itemData.item.title} 
             price={itemData.item.price}
-            onViewDetail={()=> {} } 
-            onAddToCart={() => {} } />
-        } />
+            onViewDetail={()=> {
+                props.navigation.navigate('ProductDetail', {productId: itemData.item.id, productTitle: itemData.item.title});
+            }}
+            onAddToCart={() => {}}
+            />
+        }
+    />
 }
 
 ProductOverviewScreen.navigationOptions = {
-    headerTitle : "Bütün Ürünler"
+    headerTitle : "Ürünler Listesi"
 }
 
 export default ProductOverviewScreen;
